@@ -20,17 +20,17 @@ document.onkeypress  = type // Tastatureingabe
 
 onload = function() {
     // Zunächst werden zwei Abkürzungen definiert.
-    
+
     form = document.form                   // Formular
     info = document.getElementById('info') // $(i \ j \ k)$-Anzeige
-    
+
     l =   parseInt(form.l.value) // Größe der Superzelle
     a = parseFloat(form.a.value) // Atomabstand
     M =         rM(form.M.value) // Bewegungsverlauf/Transpositionen
     m =   parseInt(form.m.value) // aktueller Index von \verb|M|
-    
+
     // Gegebenenfalls wird der Scan des nächsten Bildpunkts eingeleitet.
-    
+
     if (form.scan.value && form.goto.value) {
         form.anneal.value = 1
         scan = setTimeout(function() { lookat(form.goto.value) }, 500)
@@ -83,11 +83,11 @@ function getY(i, j, k) {
 function send() {
     var atoms = document.getElementsByTagName('circle');
     var ids = new Array()
-    
+
     for (var i = 0; i < atoms.length; i++)
         if (atoms[i].id)
             ids.push(atoms[i].id)
-    
+
     form.X.value = ids.join('~')
     form.M.value = wM(M)
     form.m.value = m
@@ -98,16 +98,16 @@ function send() {
 
 function lookat(id) {
     var n = id.split('-')
-    
+
     form.l.value  = form.l.defaultValue
     form.eC.value = form.eC.defaultValue
     form.eX.value = form.eX.defaultValue
     form.t.value  = form.t.defaultValue
     form.V.value  = form.V.defaultValue
-    
+
     form.ne.value = n[0] // Die \verb|id| selbst liefert \verb|nE|\dots
     form.nX.value = n[1] // \dots{}und \verb|\nX|
-    
+
     form.submit()
     }
 
@@ -118,10 +118,10 @@ function lookat(id) {
 
 function grab(object) {
     atom = object
-    
+
     dx = X - atom.getAttribute('cx')
     dy = Y - atom.getAttribute('cy')
-    
+
     document.onmouseup = drop
     }
 
@@ -129,24 +129,24 @@ function grab(object) {
 
 function hold(event) {
     event = event || window.event
-    
+
     X = event.clientX
     Y = event.clientY
-    
+
     if (atom) {
         x = X - dx
         y = Y - dy
-        
+
         i = (x / Math.sqrt(3) - y / 3) / a
         j = y / 1.5 / a
-        
+
         I = Math.floor(i.mod(l))
         J = Math.floor(j.mod(l))
         K = Math.floor(i.mod(1) + j.mod(1))
-        
+
         atom.setAttribute('cx', x)
         atom.setAttribute('cy', y)
-        
+
         marker.setAttribute('x', x - 5)
         marker.setAttribute('y', y - 5)
         marker.textContent = '(' + I + ' ' + J + ' ' + K + ')'
@@ -157,18 +157,18 @@ function hold(event) {
 
 function drop() {
     var id = [I, J, K].join('-')
-    
+
     if (! document.getElementById(id) || id == atom.id) {
         document.onmouseup = null
-        
+
         if (id != atom.id)
             M.splice(++m, Number.MAX_VALUE, [atom.id, id])
-        
+
         atom.setAttribute('cx', getX(I, J, K))
         atom.setAttribute('cy', getY(I, J, K))
         atom.id = id
         atom = null
-        
+
         marker.setAttribute('x', -100)
         }
     }
@@ -181,23 +181,23 @@ function drop() {
 function move(id1, id2, n) {
     var object = document.getElementById(id1)
     object.id = id2
-    
+
     clearInterval(step[id1])
-    
+
     var x1 = parseFloat(object.getAttribute('cx'))
     var y1 = parseFloat(object.getAttribute('cy'))
-    
+
     var ijk = id2.split('-').map(parseFloat)
-    
+
     var x2 = getX.apply(this, ijk)
     var y2 = getY.apply(this, ijk)
-    
+
     var i = 1
     var n = n || 40
-    
+
     var dx = (x2 - x1) / n
     var dy = (y2 - y1) / n
-    
+
     step[id2] = setInterval(function() {
         object.setAttribute('cx', x1 + i * dx)
         object.setAttribute('cy', y1 + i * dy)
@@ -212,7 +212,7 @@ function move(id1, id2, n) {
 
 function type(event) {
     event = event || window.event
-    
+
     switch (event.which || event.keyCode) {
         case 13: send(); break
         case 37: undo(); break

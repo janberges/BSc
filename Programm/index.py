@@ -76,7 +76,7 @@ if not X:
         names.update(gn.best(selection, ne = ne))
 
 # Sind für gegebenes \verb|nX| hingegen zu viele oder zu wenige Fremdatome übermittelt worden, wird die entsprechende Anzahl entfernt bzw. mittig hinzugefügt.
- 
+
 elif len(X) > nX: X[nX:] = []
 elif len(X) < nX: X.extend([_ for _ in C if _ not in X][:nX - len(X)])
 
@@ -241,63 +241,63 @@ showphases = ' checked' if 'showphases' in form or not form else ''
 
 if showphases:
     # Zunächst wird eine Instanz von \verb|Diagram| erzeugt, die neben dem Iterator auch die Werte bereitstellt, die auf die Koordinatenachsen aufgetragen werden.
-    
+
     diagram = gn.Diagram(
         cX = (cX0, cX1, ncX),
         ce = (ce0, ce1, nce))
 
     # \verb|show| speichert die Namen und Standardwerte der darzustellenden Größen, deren Werte in Matrizen eingelesen werden, die in \verb|A| vereint sind.
-    
+
     show = dict((v, 0.0) for v in channels.values() if v != 'none')
-    
+
     A = io.map(diagram, **show)
-    
-    # Zur Farbgebung müssen Minima und \emph{peak-to-peak}-Werte aller Größen bekannt sein. 
-    
+
+    # Zur Farbgebung müssen Minima und \emph{peak-to-peak}-Werte aller Größen bekannt sein.
+
     inf = dict((_, A[_].min()              ) for _ in show)
     ptp = dict((_, A[_].max() - inf[_] or 1) for _ in show)
-    
+
     # In \verb|pixels| werden die Daten zur Darstellung jedes Pixel gesammelt. Wenn es einen Pixel gibt, der den aktuellen Werten von \verb|nX| und \verb|nE| entspricht, speichert \verb|selected| dessen Indizes. Sein Auffinden veranlasst zudem das Warten auf den folgenden Pixel, der als nächster gescannt würde.
-    
+
     pixels   = []
     selected = None
     wait     = False
-    
+
     # Hier beginnt die Schleife, in der das Phasendiagramm abgelaufen wird.
-    
+
     for i, j, cX, ce, mX, me in diagram.scan():
         # Als erstes werden die Intensitäten für den roten, grünen und blauen Farbkanal berechnet. 0 entspricht dem Minimum, 255 dem Maximum der jeweiligen Größe, unabhängig vom \emph{peak-to-peak}-Wert.
-        
+
         rgb = dict(
             (k, int(255 * (A[v][i, j] - inf[v]) / ptp[v])
             if v in A else 0) for k, v in channels.items())
-    
+
         rgb = 'rgb({red}, {green}, {blue})'.format(**rgb)
-        
+
         # Jeder Pixel erhält eine \verb|ID|, die sich aus \verb|nX| und \verb|nE| zusammensetzt. Ist er nicht \verb|selected|, gehört er der \emph{CSS}-Klasse \verb|px| an.
 
         ID = '{}-{}'.format(me, mX)
         Class = 'px'
-        
+
         # Nach dem Warten wird der nächste Pixel identifiziert\dots
-        
+
         if wait:
             goto = ID
             wait = False
-        
+
         # \dots{}wobei ersteres durch das Auffinden des ausgewählten Pixels getriggert wurde.
-        
+
         if (ne, nX) == (me, mX):
             selected = i, j
             Class = 'selected'
             if scan:
                 wait = True
-        
+
         # Im \emph{Tooltip} sollen die Werte aller ausgewählten Größen stehen.
-        
+
         title = '&#10;'.join('{} = {:.4g}'.format(v, A[v][i, j])
             for k, v in channels.items() if v in A)
-    
+
         pixels.append(
             dict(
                  x = ce,
@@ -311,7 +311,7 @@ if showphases:
                     stroke = rgb,
                     onclick = 'lookat(this.id)',
                     title = title)))
-    
+
     figure = dict(
         width = 550,
         height = 400,
@@ -319,9 +319,9 @@ if showphases:
         y_label = '[c]_{X}',
         plots = pixels,
         **screen)
-    
+
     phases = gx.plot(**figure)
-    
+
     if savefigures:
         figure.update(latex)
         gx.plot(name = 'fig/phases', **figure)
@@ -330,19 +330,19 @@ if showphases:
     # \codesection{Darstellung der Querschnitte}
 
     # Wenn ein Pixel gewählt ist, werden "`Höhenprofile"' der Zeile und der Spalte des Phasendiagramms, denen er angehört, erzeugt.
-    
+
     if selected and show:
         i, j = selected
-        
+
         # Auf der Ordinate sind dabei alle ausgewählten Größen dargestellt.
-        
+
         ylabel = ' &#8239; '.join('<{0}>{{{1}}}'.format(k, v)
             for k, v in channels.items() if v != 'none')
-        
+
         for name, xlabel, x, indices in [
             ('row', '[c]_{e}', diagram.ce, (i, slice(None))),
             ('col', '[c]_{X}', diagram.cX, (slice(None), j))]:
-        
+
             figure = dict(
                 width = 275,
                 height = 180,
@@ -361,9 +361,9 @@ if showphases:
                             fill = k))
                     for k, v in channels.items() if v in A],
                 **screen)
-        
+
             cut[name] = gx.plot(**figure)
-            
+
             if savefigures:
                 figure.update(latex)
                 figure['y_tick_spacing'] = 30
@@ -410,10 +410,10 @@ print 'Content-type: text/html\n'
 with open('structure.html') as template:
     if savefigures:
         html = template.read().format(**vars())
-        
+
         print html
-        
+
         with open('fig/supercell.svg', 'w') as svg:
             svg.write(re.search('(<svg.+?/svg>)', html, re.S).group())
-    else:  
+    else:
         print template.read().format(**vars())
