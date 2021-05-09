@@ -222,7 +222,7 @@ In dieser Hinsicht ist es ein großer Vorteil der Zweidimensionalität von Graph
 
 Um die direkten Auswirkungen von Veränderungen der Adsorbatstruktur am Rechner untersuchen zu können sind geeignete Ein- und Ausgabemethoden vonnöten. Zu diesem Zweck wurde im Rahmen dieser Arbeit eine grafische Benutzeroberfläche programmiert. Diese ermöglicht neben der Eingabe unterschiedlicher Modellparameter und dem Aufruf der implementierten Algorithmen ein manuelles Arrangieren der Fremdatome bei gleichzeitiger Anzeige der resultierenden Zustandsdichten und Phasendiagramme.
 
-Im folgenden Kap.~\ref{Theorie} werden zunächst einige Grundlagen der Festkörper- und statistischen Physik erläutert, auf denen die weitere Arbeit basiert, deren Ergebnisse in Kap.~\ref{Ergebnisse} dargestellt sind. Nach der Zusammenfassung und einem Ausblick sind im Anhang weitere Abbildungen sowie eine Auflistung verwendeter Quelltexte samt ausführlicher Beschreibung zu finden. Eine lauffähige Version des Programms ist derzeit im Internet unter der Adresse \url{http://berges.canopus.uberspace.de/graphene} abrufbar. Dort sind zudem alle Phasendiagramme und Adsorbatkonfigurationen zu finden, die für diese Arbeit berechnet wurden.
+Im folgenden Kap.~\ref{Theorie} werden zunächst einige Grundlagen der Festkörper- und statistischen Physik erläutert, auf denen die weitere Arbeit basiert, deren Ergebnisse in Kap.~\ref{Ergebnisse} dargestellt sind. Nach der Zusammenfassung und einem Ausblick sind im Anhang weitere Abbildungen sowie eine Auflistung verwendeter Quelltexte samt ausführlicher Beschreibung zu finden. Eine lauffähige Version des Programms ist derzeit im Internet unter der Adresse \url{http://janber.de/adsorbatesongraphene} abrufbar. Dort sind zudem alle Phasendiagramme und Adsorbatkonfigurationen zu finden, die für diese Arbeit berechnet wurden.
 
 \chapter{Physikalische Grundlagen}
 \label{Theorie}
@@ -1635,7 +1635,7 @@ Im Folgenden sind weitere Abbildungen zu finden, die im Laufe dieser Arbeit erw�
 
 \chapter{Quelltexte}
 
-Zur Ermittlung der vorgestellten Daten wurde ein Programm mit Benutzeroberfläche entwickelt, das eine einfache Eingabe von Adsorbatkonfigurationen erlaubt sowie Zustandsdichten und Phasendiagramme unmittelbar darstellt (\url{http://berges.canopus.uberspace.de/graphene}). Die Quelltexte der wichtigsten Komponenten werden in diesem Kapitel kommentiert dargestellt.
+Zur Ermittlung der vorgestellten Daten wurde ein Programm mit Benutzeroberfläche entwickelt, das eine einfache Eingabe von Adsorbatkonfigurationen erlaubt sowie Zustandsdichten und Phasendiagramme unmittelbar darstellt (\url{http://janber.de/adsorbatesongraphene}). Die Quelltexte der wichtigsten Komponenten werden in diesem Kapitel kommentiert dargestellt.
 
 Kernstück der Berechnungen ist das \emph{Python}-Skript \emph{graphene.py}, das die für die spezielle Problemstellung wichtigsten Subroutinen und Klassen bereitstellt. Es wird unter anderem vom \emph{CGI}-Skript \emph{index.py} verwendet, das über das \emph{Common Gateway Interface} die Kommunikation mit einem Webserver regelt. Die grafische Ausgabe erfolgt dann mittels der \emph{Hypertext Markup Language (HTML)}, \emph{Scalable Vector Graphics (SVG)} und \emph{Cascading Style Sheets (CSS)} im Webbrowser, wobei dynamische Elemente und Animationen durch das \emph{JavaScript} \emph{script.js} realisiert werden.
 
