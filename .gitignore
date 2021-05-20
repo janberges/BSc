@@ -1,6 +1,9 @@
 *.aux
 *.lof
 *.log
+*.nav
 *.out
+*.snm
 *.toc
-Arbeit*.pdf
+Arbeit.pdf
+kolloquium.pdf
